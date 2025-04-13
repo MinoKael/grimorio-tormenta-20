@@ -157,7 +157,7 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
           return (
             stringSearch(poder.nome, filtroPesquisa.nome) &&
             poder.texto.includes(filtroPesquisa.texto) &&
-            applyFilter(filtroPesquisa.tags, poder.tags, filtroOpcoes.Tags) &&
+            applyFilterArray(filtroPesquisa.tags, poder.tags, filtroOpcoes.Tags) &&
             applyFilter(filtroPesquisa.referencia, poder.referencia, filtroOpcoes.Referência)
           );
         });
@@ -173,6 +173,13 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
                 !filterOptions.some((x) =>
                     normalizeString(poderProperty).includes(normalizeString(x))
                 ))
+        );
+    }
+    function applyFilterArray(filterValues, poderProperty, filterOptions) {
+        return (
+            filterValues.length === 0 ||
+            filterValues.some((x) => poderProperty.includes(x)) ||
+            (poderProperty !== null && !filterOptions.some((x) => poderProperty.includes(x)))
         );
     }
     function convertTag(tag) {

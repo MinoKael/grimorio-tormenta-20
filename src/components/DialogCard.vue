@@ -1,9 +1,5 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
-import { useDisplay } from 'vuetify';
-
-
-const { mdAndUp } = useDisplay();
 
 const dialog = ref(false);
 const { magiaIndex, magias } = defineProps(['magiaIndex', 'magias']);
@@ -109,36 +105,5 @@ watch(dialog, () => {
 <style scoped>
 :deep(.v-card-subtitle) {
     opacity: 1 !important;
-}
-.simbolo {
-    height: 16em;
-    padding: 0.5em;
-    will-change: filter;
-    transition: filter 300ms;
-}
-.simbolo:hover {
-    filter: drop-shadow(0 0 0.5em #cacaca);
-    cursor: zoom-in;
-}
-.dialog-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    overflow: hidden;
-}
-.dialog-content img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
-img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.image-error {
-    cursor: none;
-    pointer-events: none;
 }
 </style>
