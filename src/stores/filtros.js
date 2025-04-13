@@ -99,7 +99,6 @@ export const useFiltrosStore = defineStore('filtros', () => {
         return normalizeString(input).includes(normalizeString(filter));
     }
     function normalizeString(string) {
-      console.log(string)
         if (string == null) return '';
         if (Number.isInteger(string)) return string.toString();
         return string

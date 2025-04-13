@@ -71,7 +71,7 @@ const modelPaginationComputed = computed({
                   @update:model-value="filtros.filterMagias"
                 />
             </v-responsive>
-            <v-container class="d-flex flex-wrap pt-1 pb-1">
+            <v-container fluid class="d-flex flex-wrap pt-1 pb-1">
                 <Filtros v-if="mdAndUp" :mdAndUp="mdAndUp" />
 
                 <v-expansion-panels v-else class="mx-1 pb-1 font-weight-bold" color="tormentaText">
@@ -91,7 +91,7 @@ const modelPaginationComputed = computed({
                 {{ filtros.jsonMagias.length }} magias encontradas
             </h4>
             <!-- CARDS CONTAINER -->
-            <v-container class="d-flex flex-wrap justify-center pt-1">
+            <v-container fluid class="d-flex flex-wrap justify-center pt-1">
               <Card
                 v-for="(ritual, index) in filtros.filteredJson"
                 :key="ritual.id"

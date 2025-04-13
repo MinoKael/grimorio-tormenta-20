@@ -11,7 +11,7 @@ let magia = Object.assign({}, magias[magiaIndex]);
             class="ma-2 pa-2 d-flex flex-column"
             :class="{ 'on-hover': isHovering }"
             :elevation="isHovering ? 12 : 6"
-            width="300"
+            width="296"
             hover
             v-bind="props"
         >
@@ -28,31 +28,10 @@ let magia = Object.assign({}, magias[magiaIndex]);
                     </span>
                 </v-card-subtitle>
             </v-card-item>
-            <!-- <span v-if="magia.execucao">
-                <strong>Execução: </strong> {{ magia.execucao }};&nbsp
-            </span>
-            <span v-if="magia.alcance">
-                <strong>Alcance: </strong> {{ magia.alcance }};&nbsp
-            </span>
-            <span v-if="magia.alvo"
-                ><strong>Alvo: </strong> {{ magia.alvo }};&nbsp
-            </span>
-            <span v-if="magia.area"
-                ><strong>Área: </strong> {{ magia.area }};&nbsp
-            </span>
-            <span v-if="magia.efeito">
-                <strong>Efeito: </strong> {{ magia.efeito }};&nbsp
-            </span>
-            <span v-if="magia.duracao">
-                <strong>Duração: </strong> {{ magia.duracao }};&nbsp
-            </span>
-            <span v-if="magia.resistencia">
-                <strong>Resistência: </strong> {{ magia.resistencia }};&nbsp
-            </span> -->
-            <span>
+            <span class="mb-1">
                 <strong>Referência:</strong> {{ magia.referencia }};&nbsp
             </span>
-            <v-spacer />
+          
             <DialogCard :magiaIndex="magiaIndex" :magias="magias" />
         </v-card>
     </v-hover>
