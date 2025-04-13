@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'Tormenta20';
+    src: url('../fonts/Tormenta20x.ttf') format('truetype');
+}
+
+.font-tormenta-xs {
+    font-family: 'Tormenta20';
+    font-size: 1rem;
+    word-spacing: -0.4ch;
+}
+.font-tormenta-sm {
+    font-family: 'Tormenta20';
+    font-size: 1.2rem;
+    word-spacing: -0.4ch;
+}
+.font-tormenta {
+    font-family: 'Tormenta20';
+    font-size: 1.5rem;
+    word-spacing: -0.4ch;
+}
+.font-tormenta-lg {
+    font-family: 'Tormenta20';
+    font-size: 2rem;
+    word-spacing: -0.4ch;
+}
