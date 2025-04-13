@@ -47,7 +47,7 @@ function openDialog(poder) {
                 />
             </v-responsive>
             <v-responsive class="mx-0 pa-1">
-                <v-select
+                <v-autocomplete
                     v-model="filtroPoderes.filtroPesquisa.tags"
                     :items="filtroPoderes.filtroOpcoes.Tags"
                     multiple
