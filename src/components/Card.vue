@@ -1,9 +1,6 @@
 <script setup>
 import DialogCard from './DialogCard.vue';
-
-const { magiaIndex, magias } = defineProps(['magiaIndex', 'magias']);
-let magia = Object.assign({}, magias[magiaIndex]);
-
+const { magiaIndex, magia } = defineProps(['magiaIndex', 'magia']);
 </script>
 <template>
     <v-hover v-slot="{ isHovering, props }">
@@ -32,7 +29,7 @@ let magia = Object.assign({}, magias[magiaIndex]);
                 <strong>Referência:</strong> {{ magia.referencia }};&nbsp
             </span>
           
-            <DialogCard :magiaIndex="magiaIndex" :magias="magias" />
+            <DialogCard :magiaIndex="magiaIndex" />
         </v-card>
     </v-hover>
 </template>

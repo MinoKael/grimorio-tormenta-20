@@ -1,6 +1,16 @@
-async function getData(url) {
+async function getData(url, method = 'GET') {
   try {
-    const response = await fetch(url);
+    const username = import.meta.env.VITE_USERNAME_API;
+    const password = import.meta.env.VITE_PASSWORD_API;
+
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Basic ${btoa(`${username}:${password}`)}`,
+      }
+    });
 
     if (!response.ok) {
       throw new Error(`Erro na requisição: ${response.status}`);

@@ -1,8 +1,11 @@
 <script setup>
+import { useFiltrosStore } from '../stores/filtros';
 import { ref, watch, computed } from 'vue';
 
+const filtros = useFiltrosStore();
+const magias = filtros.filteredJson;
 const dialog = ref(false);
-const { magiaIndex, magias } = defineProps(['magiaIndex', 'magias']);
+const { magiaIndex } = defineProps(['magiaIndex']);
 
 const currentIndex = ref(magiaIndex);
 const currentMagia = computed(() => magias[currentIndex.value]);

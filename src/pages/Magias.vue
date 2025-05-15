@@ -3,28 +3,41 @@ import Card from '../components/Card.vue';
 import { useDisplay } from 'vuetify';
 import Filtros from '../components/Filtros.vue';
 import { useFiltrosStore } from '../stores/filtros';
-import { computed, ref } from 'vue';
-const filtros = useFiltrosStore();
+import { computed, ref, watch } from 'vue';
 
+const filtroMagias = useFiltrosStore();
 const { mdAndUp } = useDisplay();
+
+const ITEMS_OPTIONS = [30, 50, 'Tudo'];
+const isShowingAll = computed(() => maxItemsPerPage.value === 'Tudo');
 
 const maxItemsPerPage = ref(30);
 const modelPagination = ref(1);
-const posts = computed(() => {
+const magiasComputed = computed(() => {
     if (maxItemsPerPage.value === 'Tudo') {
-        return filtros.filteredJson;
+        return filtroMagias.filteredJson;
     } else {
         const startIndex =
             (modelPaginationComputed.value - 1) * maxItemsPerPage.value;
         const endIndex = startIndex + maxItemsPerPage.value;
-
-        return filtros.filteredJson.slice(startIndex, endIndex);
+        return filtroMagias.filteredJson.slice(startIndex, endIndex);
     }
+});
+watch([maxItemsPerPage, () => filtroMagias.filteredJson.length], () => {
+  const totalPages = paginationComputed.value;
+  if (modelPagination.value > totalPages) {
+    modelPagination.value = totalPages;
+  }
+});
+watch(() => filtroMagias.filteredJson.length, (newLength, oldLength) => {
+  if (oldLength === 0 && newLength > 0) {
+    modelPagination.value = 1;
+  }
 });
 
 const paginationComputed = computed(() => {
     if (maxItemsPerPage.value === 'Tudo') return 1;
-    return Math.ceil(filtros.filteredJson.length / maxItemsPerPage.value);
+    return Math.ceil(filtroMagias.filteredJson.length / maxItemsPerPage.value);
 });
 const modelPaginationComputed = computed({
     get: () =>
@@ -34,6 +47,7 @@ const modelPaginationComputed = computed({
     set: (val) => (modelPagination.value = val),
 });
 </script>
+
 <template>
     <!-- MAGIAS CONTAINER -->
     <v-container fluid class="fill-height justify-center flex-column mb-4">
@@ -44,7 +58,7 @@ const modelPaginationComputed = computed({
             <!-- BARRA PESQUISA -->
             <v-responsive class="mx-0 pa-1">
                 <v-text-field
-                  v-model.trim="filtros.filtroPesquisa.nome"
+                  v-model.trim="filtroMagias.filtroPesquisa.nome"
                   hide-details
                   clearable
                   label="Magia"
@@ -52,13 +66,13 @@ const modelPaginationComputed = computed({
                   variant="solo"
                   bg-color="tormentaText"
                   class="mx-4 custom-placeholer"
-                  @update:model-value="filtros.filterMagias"
+                  @update:model-value="filtroMagias.filterMagias"
                 />
             </v-responsive>
             <v-responsive class="mx-0 pa-1">
                 <v-select
-                  v-model="filtros.filtroPesquisa.referencia"
-                  :items="filtros.filtroOpcoes.Referência"
+                  v-model="filtroMagias.filtroPesquisa.referencia"
+                  :items="filtroMagias.filtroOpcoes.Referência"
                   multiple
                   clearable
                   chips
@@ -68,7 +82,7 @@ const modelPaginationComputed = computed({
                   hide-details
                   bg-color="tormentaText"
                   class="mx-4 custom-placeholer"
-                  @update:model-value="filtros.filterMagias"
+                  @update:model-value="filtroMagias.filterMagias"
                 />
             </v-responsive>
             <v-container fluid class="d-flex flex-wrap pt-1 pb-1">
@@ -83,44 +97,54 @@ const modelPaginationComputed = computed({
                 </v-expansion-panels>
             </v-container>
 
-            <v-btn color="tormentaText" class="mx-2" @click="filtros.resetFiltro">
+            <v-btn color="tormentaText" class="mx-2" @click="filtroMagias.resetFiltro">
                 Limpar Filtros
             </v-btn>
             <h4 class="pa-0 my-2">
-                {{ filtros.filteredJson.length }} de
-                {{ filtros.jsonMagias.length }} magias encontradas
+                {{ filtroMagias.filteredJson.length }} de
+                {{ filtroMagias.jsonMagias.length }} magias encontradas
             </h4>
             <!-- CARDS CONTAINER -->
             <v-container fluid class="d-flex flex-wrap justify-center pt-1">
               <Card
-                v-for="(ritual, index) in filtros.filteredJson"
-                :key="ritual.id"
-                :magiaIndex="index"
-                :magias="filtros.filteredJson"
+                v-for="(magia, index) in magiasComputed"
+                :key="magia.id"
+                :magiaIndex="index + (isShowingAll ? 0 : (modelPaginationComputed - 1) * maxItemsPerPage)"
+                :magia="magia"
                 v-bind="$attrs"
               />
             </v-container>
         </v-responsive>
-        <v-responsive :width="mdAndUp ? '1000' : ''">
-          <v-row no-gutters justify="end" class="my-4">
-            <span class="mr-3 d-flex align-center"
-                  >Itens por página</span
-                >
+        <v-responsive :width="mdAndUp ? '1000' : ''" v-if="!isShowingAll">
+            <v-row no-gutters justify="end" class="my-4">
+                <span class="mr-3 d-flex align-center">Itens por página</span>
                 <v-select
                     v-model="maxItemsPerPage"
-                    :items="[30, 50, 'Tudo']"
+                    :items="ITEMS_OPTIONS"
                     variant="solo-filled"
                     hide-details
                     style="max-width: fit-content !important"
-                    ></v-select>
+                ></v-select>
 
                 <v-pagination
                     style="min-width: 400px !important"
                     v-model="modelPaginationComputed"
                     :length="paginationComputed"
                     :total-visible="3"
-                    ></v-pagination>
-          </v-row>
+                ></v-pagination>
+            </v-row>
+        </v-responsive>
+        <v-responsive :width="mdAndUp ? '1000' : ''" v-else>
+            <v-row no-gutters justify="end" class="my-4">
+                <span class="mr-3 d-flex align-center">Itens por página</span>
+                <v-select
+                    v-model="maxItemsPerPage"
+                    :items="ITEMS_OPTIONS"
+                    variant="solo-filled"
+                    hide-details
+                    style="max-width: fit-content !important;margin-right: 40px;"
+                ></v-select>
+            </v-row>
         </v-responsive>
     </v-container>
 </template>

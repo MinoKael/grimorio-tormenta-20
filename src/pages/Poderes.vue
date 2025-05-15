@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useFiltroPoderesStore } from '../stores/filtroPoderes';
 import DialogPoder from '../components/DialogPoder.vue';
@@ -12,6 +12,45 @@ function openDialog(poder) {
     dialogPoder.value = poder;
     dialog.value = true;
 }
+
+const ITEMS_OPTIONS = [30, 50, 'Tudo'];
+const isShowingAll = computed(() => maxItemsPerPage.value === 'Tudo');
+
+const maxItemsPerPage = ref(30);
+const modelPagination = ref(1);
+const poderesComputed = computed(() => {
+    if (maxItemsPerPage.value === 'Tudo') {
+        return filtroPoderes.filteredJson;
+    } else {
+        const startIndex =
+            (modelPaginationComputed.value - 1) * maxItemsPerPage.value;
+        const endIndex = startIndex + maxItemsPerPage.value;
+        return filtroPoderes.filteredJson.slice(startIndex, endIndex);
+    }
+});
+watch([maxItemsPerPage, () => filtroPoderes.filteredJson.length], () => {
+  const totalPages = paginationComputed.value;
+  if (modelPagination.value > totalPages) {
+    modelPagination.value = totalPages;
+  }
+});
+watch(() => filtroPoderes.filteredJson.length, (newLength, oldLength) => {
+  if (oldLength === 0 && newLength > 0) {
+    modelPagination.value = 1;
+  }
+});
+
+const paginationComputed = computed(() => {
+    if (maxItemsPerPage.value === 'Tudo') return 1;
+    return Math.ceil(filtroPoderes.filteredJson.length / maxItemsPerPage.value);
+});
+const modelPaginationComputed = computed({
+    get: () =>
+        modelPagination.value > paginationComputed.value
+            ? paginationComputed.value
+            : modelPagination.value,
+    set: (val) => (modelPagination.value = val),
+});
 </script>
 <template>
     <v-container fluid :width="mdAndUp ? '1200' : '100%'">
@@ -54,7 +93,6 @@ function openDialog(poder) {
                     clearable
                     chips
                     label="Tags"
-                    density="comfortable"
                     variant="solo"
                     hide-details
                     bg-color="tormentaText"
@@ -70,7 +108,6 @@ function openDialog(poder) {
                     clearable
                     chips
                     label="Referência"
-                    density="comfortable"
                     variant="solo"
                     hide-details
                     bg-color="tormentaText"
@@ -95,7 +132,7 @@ function openDialog(poder) {
                 <v-hover v-slot="{ isHovering }">
                     <v-card
                         @click="openDialog(poder)"
-                        v-for="(poder, index) in filtroPoderes.filteredJson"
+                        v-for="(poder, index) in poderesComputed"
                         :key="poder.id"
                         class="ma-2 pa-2 d-flex flex-column align-center justify-space-between"
                         :class="{ 'on-hover': isHovering }"
@@ -110,11 +147,13 @@ function openDialog(poder) {
                         </v-card-title>
                         <v-card-subtitle
                             class="pb-2 d-flex justify-center flex-wrap ga-1"
+                            style="opacity: 1!important;"
                         >
                             <span
                                 style="
                                     font-size: 0.9rem;
-                                    background-color: #ce2a28;
+                                    border: 1px solid #ce2a28;
+                                    font-weight: 400;
                                     color: white;
                                     font-weight: bold;
                                     border-radius: 30px;
@@ -128,11 +167,51 @@ function openDialog(poder) {
                         </v-card-subtitle>
                         <span class="mb-1"><strong>Referência: </strong>{{ poder.referencia }};&nbsp</span>
 
-                        <DialogPoder :poderIndex="index" :poderes="filtroPoderes.filteredJson" />
+                        <DialogPoder :poderIndex="index + (isShowingAll ? 0 : (modelPaginationComputed - 1) * maxItemsPerPage)" />
                     </v-card>
                 </v-hover>
             </v-container>
         </v-responsive>
+        <v-responsive :width="mdAndUp ? '1000' : ''" v-if="!isShowingAll">
+            <v-row no-gutters justify="end" class="my-4">
+                <span class="mr-3 d-flex align-center">Itens por página</span>
+                <v-select
+                    v-model="maxItemsPerPage"
+                    :items="ITEMS_OPTIONS"
+                    variant="solo-filled"
+                    hide-details
+                    style="max-width: fit-content !important"
+                ></v-select>
+
+                <v-pagination
+                    style="min-width: 400px !important"
+                    v-model="modelPaginationComputed"
+                    :length="paginationComputed"
+                    :total-visible="3"
+                ></v-pagination>
+            </v-row>
+        </v-responsive>
+        <v-responsive :width="mdAndUp ? '1000' : ''" v-else>
+            <v-row no-gutters justify="end" class="my-4">
+                <span class="mr-3 d-flex align-center">Itens por página</span>
+                <v-select
+                    v-model="maxItemsPerPage"
+                    :items="ITEMS_OPTIONS"
+                    variant="solo-filled"
+                    hide-details
+                    style="max-width: fit-content !important;margin-right: 40px;"
+                ></v-select>
+            </v-row>
+        </v-responsive>
     </v-container>
 </template>
-<style scoped></style>
+<style scoped>
+:deep(.v-label) {
+    color: white !important;
+    opacity: 1;
+    font-weight: bolder;
+}
+:deep(.v-field--active) {
+    font-weight: 400 !important;
+}
+</style>

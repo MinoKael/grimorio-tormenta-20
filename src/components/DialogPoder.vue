@@ -4,13 +4,13 @@ import { useFiltroPoderesStore } from '../stores/filtroPoderes';
 
 const filtroPoderes = useFiltroPoderesStore();
 const dialog = ref(false);
-const { poderIndex, poderes } = defineProps(['poderIndex', 'poderes']);
+const { poderIndex } = defineProps(['poderIndex']);
 
 const currentIndex = ref(poderIndex);
-const currentPoder = computed(() => poderes[currentIndex.value]);
+const currentPoder = computed(() => filtroPoderes.filteredJson[currentIndex.value]);
 
 function nextPoder() {
-    if (currentIndex.value < poderes.length - 1) {
+    if (currentIndex.value < filtroPoderes.filteredJson.length - 1) {
         currentIndex.value++;
     }
 }
@@ -77,7 +77,7 @@ watch(dialog, () => {
                 <v-btn color="tormentaText font-tormenta" style="width: 80%;" @click="dialog = false">
                     Fechar
                 </v-btn>
-                <v-btn icon @click="nextPoder" :disabled="currentIndex === poderes.length - 1">
+                <v-btn icon @click="nextPoder" :disabled="currentIndex === filtroPoderes.filteredJson.length - 1">
                     <v-icon>mdi-arrow-right</v-icon>
                 </v-btn>
             </v-card-actions>
