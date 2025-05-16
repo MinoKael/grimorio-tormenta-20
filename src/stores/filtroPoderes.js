@@ -1,18 +1,6 @@
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
 import { getData } from '../plugins/global';
-const rawJson = await getData(import.meta.env.VITE_PODERES_API_URL) || [];
-const jsonPoderes = rawJson.sort((a,b) => {
-const nomeA = a.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
-const nomeB = b.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
-if(nomeA < nomeB){
-    return -1;
-}
-if(nomeA > nomeB){
-    return 1;
-}
-return 0;
-});
 
 const base = {
     nome: '',
@@ -135,6 +123,28 @@ const PREDEFINED_TAGS = [
 
 export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
     const filtroPesquisa = reactive({ ...base });
+    const jsonPoderes = ref([]);
+    const filteredJson = ref([]);
+    const loading = ref(true);
+
+    async function loadPoderes() {
+        loading.value = true;
+        const rawJson = await getData(import.meta.env.VITE_PODERES_API_URL) || [];
+        jsonPoderes.value = rawJson.sort((a,b) => {
+            const nomeA = a.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
+            const nomeB = b.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
+            if(nomeA < nomeB){
+                return -1;
+            }
+            if(nomeA > nomeB){
+                return 1;
+            }
+            return 0;
+        });
+        filteredJson.value = jsonPoderes.value;
+        loading.value = false;
+    }
+
     function resetFiltro() {
         Object.keys(base).forEach((key) => {
             filtroPesquisa[key] = base[key];
@@ -146,8 +156,6 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
         Tags: PREDEFINED_TAGS,
         Referência: ['Tormenta 20', 'Dragão Brasil', 'Guia de NPCs','Atlas de Arton', 'Ameaças de Arton', 'Deuses de Arton', 'Heróis de Arton', 'Guia de Deuses Menores']
     });
-
-    const filteredJson = ref(jsonPoderes);
 
     function stringSearch(input, filter) {
         if (!filter || filter.trim() === '') {
@@ -165,7 +173,7 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
             .toLowerCase();
     }
     function filterPoderes() {
-        filteredJson.value = jsonPoderes.filter((poder) => {
+        filteredJson.value = jsonPoderes.value.filter((poder) => {
           return (
             stringSearch(poder.nome, filtroPesquisa.nome) &&
             poder.texto.includes(filtroPesquisa.texto) &&
@@ -192,6 +200,8 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
     }
 
     return {
+        loadPoderes,
+        loading,
         filterPoderes,
         filteredJson,
         jsonPoderes,

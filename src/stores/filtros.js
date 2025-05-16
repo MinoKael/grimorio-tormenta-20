@@ -1,18 +1,6 @@
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
 import { getData } from '../plugins/global';
-const rawJson = await getData(import.meta.env.VITE_MAGIAS_API_URL) || [];
-const jsonMagias = rawJson.sort((a,b) => {
-  const nomeA = a.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
-  const nomeB = b.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
-  if(nomeA < nomeB){
-    return -1;
-  }
-  if(nomeA > nomeB){
-    return 1;
-  }
-  return 0;
-})
 
 const base = {
     nome: '',
@@ -31,13 +19,6 @@ const base = {
 
 export const useFiltrosStore = defineStore('filtros', () => {
     const filtroPesquisa = reactive({ ...base });
-    function resetFiltro() {
-        Object.keys(base).forEach((key) => {
-            filtroPesquisa[key] = base[key];
-        });
-        filterMagias();
-    }
-
     const filtroOpcoes = reactive({
         Tipo: ['Arcana', 'Divina', 'Universal'],
         Círculo: [1, 2, 3, 4, 5],
@@ -90,7 +71,34 @@ export const useFiltrosStore = defineStore('filtros', () => {
         Referência: ['Tormenta 20', 'Dragão Brasil', 'Guia de NPCs','Atlas de Arton', 'Ameaças de Arton', 'Deuses de Arton', 'Heróis de Arton']
     });
 
-    const filteredJson = ref(jsonMagias);
+    const jsonMagias = ref([]);
+    const filteredJson = ref([]);
+    const loading = ref(true);
+
+    async function loadMagias() {
+        loading.value = true;
+        const rawJson = await getData(import.meta.env.VITE_MAGIAS_API_URL) || [];
+        jsonMagias.value = rawJson.sort((a,b) => {
+            const nomeA = a.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
+            const nomeB = b.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
+            if(nomeA < nomeB){
+                return -1;
+            }
+            if(nomeA > nomeB){
+                return 1;
+            }
+            return 0;
+        });
+        filteredJson.value = jsonMagias.value;
+        loading.value = false;
+    }
+
+    function resetFiltro() {
+        Object.keys(base).forEach((key) => {
+            filtroPesquisa[key] = base[key];
+        });
+        filterMagias();
+    }
 
     function stringSearch(input, filter) {
         if (!filter || filter.trim() === '') {
@@ -98,6 +106,7 @@ export const useFiltrosStore = defineStore('filtros', () => {
         }
         return normalizeString(input).includes(normalizeString(filter));
     }
+
     function normalizeString(string) {
         if (string == null) return '';
         if (Number.isInteger(string)) return string.toString();
@@ -107,8 +116,9 @@ export const useFiltrosStore = defineStore('filtros', () => {
             .replace(/\s/g, '')
             .toLowerCase();
     }
+
     function filterMagias() {
-        filteredJson.value = jsonMagias.filter((magia) => {
+        filteredJson.value = jsonMagias.value.filter((magia) => {
           return (
             stringSearch(magia.nome, filtroPesquisa.nome) &&
             applyFilter(
@@ -187,6 +197,8 @@ export const useFiltrosStore = defineStore('filtros', () => {
     }
 
     return {
+        loadMagias,
+        loading,
         filterMagias,
         filteredJson,
         jsonMagias,
