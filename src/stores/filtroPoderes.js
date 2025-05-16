@@ -119,6 +119,10 @@ const PREDEFINED_TAGS = [
     { name: "Herança Lobo", value: "heranca_lobo" },
     { name: "Herança Morcego", value: "heranca_morcego" },
     { name: "Herança Urso", value: "heranca_urso" },
+    { name: "Benthos, Dragão Rei dos Mares", value: "benthos" },
+    { name: "Gwendolynn Libertadora", value: "gwendolynn" },
+    { name: "Hippion, Deus Menor dos Cavalos", value: "hippion" },
+    { name: "Inghlblhpholstgt, Grande Deus Sapo", value: "deus_sapo" },
 ];
 
 export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
@@ -130,17 +134,7 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
     async function loadPoderes() {
         loading.value = true;
         const rawJson = await getData(import.meta.env.VITE_PODERES_API_URL) || [];
-        jsonPoderes.value = rawJson.sort((a,b) => {
-            const nomeA = a.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
-            const nomeB = b.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
-            if(nomeA < nomeB){
-                return -1;
-            }
-            if(nomeA > nomeB){
-                return 1;
-            }
-            return 0;
-        });
+        jsonPoderes.value = rawJson
         filteredJson.value = jsonPoderes.value;
         loading.value = false;
     }
