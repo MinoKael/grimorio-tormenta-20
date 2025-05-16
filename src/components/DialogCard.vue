@@ -91,11 +91,11 @@ watch(dialog, () => {
                     <span v-html="aprimoramento.match(/(?<=:).+/).toString()"></span>
                 </p>
             </v-card-text>
-            <v-card-actions class="justify-space-between">
+            <v-card-actions class="d-flex justify-space-between" style="width: 100%;">
                 <v-btn icon @click="prevMagia" :disabled="currentIndex === 0">
                     <v-icon>mdi-arrow-left</v-icon>
                 </v-btn>
-                <v-btn color="tormentaText font-tormenta" style="width: 80%;" @click="dialog = false">
+                <v-btn color="tormentaText font-tormenta" style="flex: 1;" @click="dialog = false">
                     Fechar
                 </v-btn>
                 <v-btn icon @click="nextMagia" :disabled="currentIndex === magias.length - 1">

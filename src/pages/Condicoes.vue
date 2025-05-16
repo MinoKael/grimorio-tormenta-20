@@ -32,5 +32,8 @@ onMounted(async () => {
     color: #ce2a28;
     text-shadow: 0 2px 8px #000a;
     letter-spacing: 1px;
+    word-break: break-word;
+    text-wrap: balance;
+    font-size: 1.2rem;
 }
 </style>

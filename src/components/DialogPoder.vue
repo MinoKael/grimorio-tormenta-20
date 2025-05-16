@@ -70,11 +70,11 @@ watch(dialog, () => {
 
                 <v-divider class="my-3"></v-divider>
             </v-card-text>
-            <v-card-actions class="justify-space-between">
+            <v-card-actions class="d-flex justify-space-between" style="width: 100%;">
                 <v-btn icon @click="prevPoder" :disabled="currentIndex === 0">
                     <v-icon>mdi-arrow-left</v-icon>
                 </v-btn>
-                <v-btn color="tormentaText font-tormenta" style="width: 80%;" @click="dialog = false">
+                <v-btn color="tormentaText font-tormenta" class="mx-2" style="flex: 1;" @click="dialog = false">
                     Fechar
                 </v-btn>
                 <v-btn icon @click="nextPoder" :disabled="currentIndex === filtroPoderes.filteredJson.length - 1">
