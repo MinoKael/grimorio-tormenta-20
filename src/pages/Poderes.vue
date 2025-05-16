@@ -92,9 +92,12 @@ const modelPaginationComputed = computed({
                     multiple
                     clearable
                     chips
+                    closable-chips
                     label="Tags"
                     variant="solo"
                     hide-details
+                    item-value="value"
+                    item-title="name"
                     bg-color="tormentaText"
                     class="mx-4 custom-placeholer"
                     @update:model-value="filtroPoderes.filterPoderes"
@@ -107,6 +110,7 @@ const modelPaginationComputed = computed({
                     multiple
                     clearable
                     chips
+                    closable-chips
                     label="Referência"
                     variant="solo"
                     hide-details

@@ -119,6 +119,18 @@ const PREDEFINED_TAGS = [
     { name: "Velocis", value: "velocis" },
     { name: "Voracis", value: "voracis" },
     { name: "Yidishan", value: "yidishan" },
+    { name: "Herança Coruja", value: "heranca_coruja" },
+    { name: "Herança Hiena", value: "heranca_hiena" },
+    { name: "Herança Raposa", value: "heranca_raposa" },
+    { name: "Herança Serpente", value: "heranca_serpente" },
+    { name: "Herança Búfalo", value: "heranca_bufalo" },
+    { name: "Herança Coelho", value: "heranca_coelho" },
+    { name: "Herança Crocodilo", value: "heranca_crocodilo" },
+    { name: "Herança Gato", value: "heranca_gato" },
+    { name: "Herança Leão", value: "heranca_leao" },
+    { name: "Herança Lobo", value: "heranca_lobo" },
+    { name: "Herança Morcego", value: "heranca_morcego" },
+    { name: "Herança Urso", value: "heranca_urso" },
 ];
 
 export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
@@ -131,7 +143,7 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
     }
 
     const filtroOpcoes = reactive({
-        Tags: PREDEFINED_TAGS.map(tag => tag.name),
+        Tags: PREDEFINED_TAGS,
         Referência: ['Tormenta 20', 'Dragão Brasil', 'Guia de NPCs','Atlas de Arton', 'Ameaças de Arton', 'Deuses de Arton', 'Heróis de Arton']
     });
 
@@ -157,30 +169,22 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
           return (
             stringSearch(poder.nome, filtroPesquisa.nome) &&
             poder.texto.includes(filtroPesquisa.texto) &&
-            applyFilterArray(filtroPesquisa.tags, poder.tags, filtroOpcoes.Tags) &&
-            applyFilter(filtroPesquisa.referencia, poder.referencia, filtroOpcoes.Referência)
+            applyFilterArray(filtroPesquisa.tags, poder.tags) &&
+            applyFilter(filtroPesquisa.referencia, poder.referencia)
           );
         });
     };
 
-    function applyFilter(filterValues, poderProperty, filterOptions) {
-        return (
-            filterValues.length === 0 ||
-            filterValues.some((x) =>
-                normalizeString(poderProperty).includes(normalizeString(x))
-            ) ||
-            (poderProperty !== null &&
-                !filterOptions.some((x) =>
-                    normalizeString(poderProperty).includes(normalizeString(x))
-                ))
-        );
+    function applyFilter(filterValues, poderProperty) {
+        if (filterValues.length === 0) return true;
+        return filterValues.some((x) => normalizeString(poderProperty).includes(normalizeString(x)))
     }
-    function applyFilterArray(filterValues, poderProperty, filterOptions) {
-        return (
-            filterValues.length === 0 ||
-            filterValues.some((x) => poderProperty.includes(x)) ||
-            (poderProperty !== null && !filterOptions.some((x) => poderProperty.includes(x)))
-        );
+    function applyFilterArray(filterValues, poderProperty) {
+        if (filterValues.length === 0) return true;
+
+        if (!Array.isArray(poderProperty)) return false;
+
+        return filterValues.some((x) => poderProperty.includes(x));
     }
     function convertTag(tag) {
         const predefinedTag = PREDEFINED_TAGS.find(t => t.value === tag);
