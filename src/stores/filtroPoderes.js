@@ -144,7 +144,7 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
 
     const filtroOpcoes = reactive({
         Tags: PREDEFINED_TAGS,
-        Referência: ['Tormenta 20', 'Dragão Brasil', 'Guia de NPCs','Atlas de Arton', 'Ameaças de Arton', 'Deuses de Arton', 'Heróis de Arton']
+        Referência: ['Tormenta 20', 'Dragão Brasil', 'Guia de NPCs','Atlas de Arton', 'Ameaças de Arton', 'Deuses de Arton', 'Heróis de Arton', 'Guia de Deuses Menores']
     });
 
     const filteredJson = ref(jsonPoderes);
