@@ -12,11 +12,11 @@ onMounted(async () => {
 </script>
 <template>
     <v-container fluid :width="mdAndUp ? '1200' : '90%'">
-        <v-card-title class="text-center">
+        <v-card-title class="text-center font-tormenta condicoes-title">
             A menos que especificado o contrário, as condições terminam no fim da cena.
         </v-card-title>
         <div class="d-flex flex-wrap justify-center pt-1">
-            <v-card v-for="condicao in condicoes" :key="condicao.id" class="ma-2 pa-2 " :width="mdAndUp ? '300' : '100%'">
+            <v-card v-for="condicao in condicoes" :key="condicao.id" class="ma-2 pa-2" :width="mdAndUp ? '300' : '100%'">
                 <v-card-title class="text-tormentaText text-wrap font-tormenta">
                     {{ condicao.nome }}
                 </v-card-title>
@@ -27,4 +27,10 @@ onMounted(async () => {
         </div>
   </v-container>
 </template>
-<style scoped></style>
+<style scoped>
+.condicoes-title {
+    color: #ce2a28;
+    text-shadow: 0 2px 8px #000a;
+    letter-spacing: 1px;
+}
+</style>

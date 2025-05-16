@@ -127,9 +127,9 @@ const modelPaginationComputed = computed({
             >
                 Limpar Filtros
             </v-btn>
-            <h4 class="pa-0 my-2">
+            <h4 class="pa-0 my-2 font-tormenta poderes-title">
                 {{ filtroPoderes.filteredJson.length }} de
-                {{ filtroPoderes.jsonPoderes.length }} poderes encontradas
+                {{ filtroPoderes.jsonPoderes.length }} poderes encontrados
             </h4>
             <!-- CARDS CONTAINER -->
             <v-container fluid class="d-flex flex-wrap justify-center pt-1">
@@ -217,5 +217,10 @@ const modelPaginationComputed = computed({
 }
 :deep(.v-field--active) {
     font-weight: 400 !important;
+}
+.poderes-title {
+    color: #ce2a28;
+    text-shadow: 0 2px 8px #000a;
+    letter-spacing: 1px;
 }
 </style>

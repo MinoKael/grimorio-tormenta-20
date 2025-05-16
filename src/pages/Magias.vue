@@ -100,7 +100,7 @@ const modelPaginationComputed = computed({
             <v-btn color="tormentaText" class="mx-2" @click="filtroMagias.resetFiltro">
                 Limpar Filtros
             </v-btn>
-            <h4 class="pa-0 my-2">
+            <h4 class="pa-0 my-2 font-tormenta magias-title">
                 {{ filtroMagias.filteredJson.length }} de
                 {{ filtroMagias.jsonMagias.length }} magias encontradas
             </h4>
@@ -156,5 +156,10 @@ const modelPaginationComputed = computed({
 }
 :deep(.v-field--active) {
     font-weight: 400 !important;
+}
+.magias-title {
+    color: #ce2a28;
+    text-shadow: 0 2px 8px #000a;
+    letter-spacing: 1px;
 }
 </style>
