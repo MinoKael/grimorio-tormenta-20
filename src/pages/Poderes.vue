@@ -122,7 +122,7 @@ const modelPaginationComputed = computed({
 
             <v-btn
                 color="tormentaText"
-                class="mx-2"
+                class="mx-2 mt-1"
                 @click="filtroPoderes.resetFiltro"
             >
                 Limpar Filtros
