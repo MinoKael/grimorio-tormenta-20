@@ -120,7 +120,7 @@ const modelPaginationComputed = computed({
                             <v-card-title class="text-tormentaText text-wrap font-tormenta">
                                 {{ magia.nome }}
                             </v-card-title>
-                            <v-card-subtitle class="pb-2 d-flex align-center justify-center ga-1">
+                            <v-card-subtitle class="pb-2 d-flex align-center justify-center ga-1" style="opacity: 1!important;">
                                 <span style="font-size: 1rem;">
                                     {{ magia.tipo }} {{ magia.circulo }} ({{ magia.escola }})
                                 </span>
