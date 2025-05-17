@@ -134,7 +134,17 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
     async function loadPoderes() {
         loading.value = true;
         const rawJson = await getData(import.meta.env.VITE_PODERES_API_URL) || [];
-        jsonPoderes.value = rawJson
+        jsonPoderes.value = rawJson.sort((a,b) => {
+            const nomeA = a.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
+            const nomeB = b.nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase()
+            if(nomeA < nomeB){
+                return -1;
+            }
+            if(nomeA > nomeB){
+                return 1;
+            }
+            return 0;
+        });
         filteredJson.value = jsonPoderes.value;
         loading.value = false;
     }

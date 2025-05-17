@@ -1,5 +1,5 @@
 <script setup>
-import Card from '../components/Card.vue';
+import DialogCard from '../components/DialogCard.vue';
 import { useDisplay } from 'vuetify';
 import Filtros from '../components/Filtros.vue';
 import { useFiltrosStore } from '../stores/filtros';
@@ -106,13 +106,36 @@ const modelPaginationComputed = computed({
             </h4>
             <!-- CARDS CONTAINER -->
             <v-container fluid class="d-flex flex-wrap justify-center pt-1">
-              <Card
-                v-for="(magia, index) in magiasComputed"
-                :key="magia.id"
-                :magiaIndex="index + (isShowingAll ? 0 : (modelPaginationComputed - 1) * maxItemsPerPage)"
-                :magia="magia"
-                v-bind="$attrs"
-              />
+                <v-hover v-slot="{ isHovering }">
+                    <v-card
+                        v-for="(magia, index) in magiasComputed"
+                        :key="magia.id"
+                        class="ma-2 pa-2 d-flex flex-column"
+                        :class="{ 'on-hover': isHovering }"
+                        hover
+                        :elevation="isHovering ? 12 : 6"
+                        width="296"
+                    >
+                        <v-card-item class="pb-0">
+                            <v-card-title class="text-tormentaText text-wrap font-tormenta">
+                                {{ magia.nome }}
+                            </v-card-title>
+                            <v-card-subtitle class="pb-2 d-flex align-center justify-center ga-1">
+                                <span style="font-size: 1rem;">
+                                    {{ magia.tipo }} {{ magia.circulo }} ({{ magia.escola }})
+                                </span>
+                                <span class="text-tormentaText font-weight-black font-tormenta-sm d-flex align-self-end">
+                                    {{ magia.custo }} PM
+                                </span>
+                            </v-card-subtitle>
+                        </v-card-item>
+                        <span class="mb-1">
+                            <strong>Referência:</strong> {{ magia.referencia }};&nbsp
+                        </span>
+                    
+                        <DialogCard :magiaIndex="index + (isShowingAll ? 0 : (modelPaginationComputed - 1) * maxItemsPerPage)" />
+                    </v-card>
+                </v-hover>
             </v-container>
         </v-responsive>
         <v-responsive :width="mdAndUp ? '1000' : ''" v-if="!isShowingAll">

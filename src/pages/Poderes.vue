@@ -6,12 +6,6 @@ import DialogPoder from '../components/DialogPoder.vue';
 const { mdAndUp } = useDisplay();
 
 const filtroPoderes = useFiltroPoderesStore();
-const dialog = ref(false);
-const dialogPoder = ref(null);
-function openDialog(poder) {
-    dialogPoder.value = poder;
-    dialog.value = true;
-}
 
 const ITEMS_OPTIONS = [30, 50, 'Tudo'];
 const isShowingAll = computed(() => maxItemsPerPage.value === 'Tudo');
@@ -135,7 +129,6 @@ const modelPaginationComputed = computed({
             <v-container fluid class="d-flex flex-wrap justify-center pt-1">
                 <v-hover v-slot="{ isHovering }">
                     <v-card
-                        @click="openDialog(poder)"
                         v-for="(poder, index) in poderesComputed"
                         :key="poder.id"
                         class="ma-2 pa-2 d-flex flex-column align-center justify-space-between"

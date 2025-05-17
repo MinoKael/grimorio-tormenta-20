@@ -3,15 +3,14 @@ import { useFiltrosStore } from '../stores/filtros';
 import { ref, watch, computed } from 'vue';
 
 const filtros = useFiltrosStore();
-const magias = filtros.filteredJson;
 const dialog = ref(false);
 const { magiaIndex } = defineProps(['magiaIndex']);
 
 const currentIndex = ref(magiaIndex);
-const currentMagia = computed(() => magias[currentIndex.value]);
+const currentMagia = computed(() => filtros.filteredJson[currentIndex.value]);
 
 function nextMagia() {
-    if (currentIndex.value < magias.length - 1) {
+    if (currentIndex.value < filtros.filteredJson.length - 1) {
         currentIndex.value++;
     }
 }
@@ -98,7 +97,7 @@ watch(dialog, () => {
                 <v-btn color="tormentaText font-tormenta" style="flex: 1;" @click="dialog = false">
                     Fechar
                 </v-btn>
-                <v-btn icon @click="nextMagia" :disabled="currentIndex === magias.length - 1">
+                <v-btn icon @click="nextMagia" :disabled="currentIndex === filtros.filteredJson.length - 1">
                     <v-icon>mdi-arrow-right</v-icon>
                 </v-btn>
             </v-card-actions>
