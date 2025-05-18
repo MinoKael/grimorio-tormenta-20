@@ -24,11 +24,52 @@ watch(dialog, () => {
         currentIndex.value = poderIndex;
     }
 });
-function highlightMatches(text, searchTerm) {
-  if (!searchTerm) return text;
-  const escaped = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // escape regex
-  const regex = new RegExp(`(${escaped})`, 'gi'); // global + case-insensitive
-  return text.replace(regex, '<mark>$1</mark>');
+function highlightMatches(originalText, searchTerm) {
+    if (!searchTerm) return originalText;
+
+    const normalizedSearch = filtroPoderes.normalizeString(searchTerm);
+    if (!normalizedSearch) return originalText;
+
+    const normalizedChars = [];
+    const positionMap = [];
+
+    for (let i = 0; i < originalText.length; i++) {
+        const norm = filtroPoderes.normalizeString(originalText[i]);
+        for (let j = 0; j < norm.length; j++) {
+        normalizedChars.push(norm[j]);
+        positionMap.push(i); 
+        }
+    }
+
+    const normalizedText = normalizedChars.join('');
+    const matchIndices = [];
+
+    let i = 0;
+    while (i <= normalizedText.length - normalizedSearch.length) {
+        if (normalizedText.slice(i, i + normalizedSearch.length) === normalizedSearch) {
+        matchIndices.push([i, i + normalizedSearch.length]);
+        i += normalizedSearch.length; 
+        } else {
+        i++;
+        }
+    }
+
+    if (matchIndices.length === 0) return originalText;
+    
+    let result = '';
+    let lastIndex = 0;
+
+    for (const [startNorm, endNorm] of matchIndices) {
+        const startOrig = positionMap[startNorm];
+        const endOrig = positionMap[endNorm - 1] + 1;
+
+        result += originalText.slice(lastIndex, startOrig);
+        result += `<mark>${originalText.slice(startOrig, endOrig)}</mark>`;
+        lastIndex = endOrig;
+    }
+
+    result += originalText.slice(lastIndex);
+    return result;
 }
 </script>
 <template>

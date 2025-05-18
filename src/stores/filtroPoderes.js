@@ -180,7 +180,7 @@ export const useFiltroPoderesStore = defineStore('filtroPoderes', () => {
         filteredJson.value = jsonPoderes.value.filter((poder) => {
           return (
             stringSearch(poder.nome, filtroPesquisa.nome) &&
-            new RegExp(normalizeString(filtroPesquisa.texto), 'i').test(poder.texto) &&
+            new RegExp(normalizeString(filtroPesquisa.texto), 'i').test(normalizeString(poder.texto)) &&
             applyFilterArray(filtroPesquisa.tags, poder.tags) &&
             applyFilter(filtroPesquisa.referencia, poder.referencia)
           );
