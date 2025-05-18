@@ -24,6 +24,12 @@ watch(dialog, () => {
         currentIndex.value = poderIndex;
     }
 });
+function highlightMatches(text, searchTerm) {
+  if (!searchTerm) return text;
+  const escaped = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // escape regex
+  const regex = new RegExp(`(${escaped})`, 'gi'); // global + case-insensitive
+  return text.replace(regex, '<mark>$1</mark>');
+}
 </script>
 <template>
     <v-dialog
@@ -66,7 +72,7 @@ watch(dialog, () => {
             <v-divider class="my-3"></v-divider>
             <v-card-text class="pt-2">
 
-                <p class="text-pre-wrap" v-html="currentPoder.texto"></p>
+                <p class="text-pre-wrap" v-html="highlightMatches(currentPoder.texto, filtroPoderes.filtroPesquisa.texto)"></p>
 
                 <v-divider class="my-3"></v-divider>
             </v-card-text>
@@ -87,5 +93,11 @@ watch(dialog, () => {
 <style scoped>
 :deep(.v-card-subtitle) {
     opacity: 1 !important;
+}
+mark {
+  background-color: yellow;
+  color: black;
+  padding: 0 2px;
+  border-radius: 2px;
 }
 </style>
