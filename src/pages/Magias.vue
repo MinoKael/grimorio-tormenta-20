@@ -58,7 +58,7 @@ const modelPaginationComputed = computed({
             <!-- BARRA PESQUISA -->
             <v-responsive class="mx-0 pa-1">
                 <v-text-field
-                  v-model.trim="filtroMagias.filtroPesquisa.nome"
+                  v-model="filtroMagias.filtroPesquisa.nome"
                   hide-details
                   clearable
                   label="Magia"
