@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import { useFiltroPoderesStore } from '../stores/filtroPoderes';
 
 const filtroPoderes = useFiltroPoderesStore();
@@ -71,6 +71,22 @@ function highlightMatches(originalText, searchTerm) {
     result += originalText.slice(lastIndex);
     return result;
 }
+const handleKey = (event) => {
+    if (event.key === 'ArrowLeft') {
+    prevPoder();
+    } else if (event.key === 'ArrowRight') {
+    nextPoder();
+    }
+};
+
+onMounted(() => {
+    window.addEventListener('keydown', handleKey);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('keydown', handleKey);
+});
+
 </script>
 <template>
     <v-dialog
