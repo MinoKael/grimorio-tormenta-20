@@ -19,6 +19,8 @@ const PREDEFINED_TAGS = [
     { name: "Poder de Aprimoramento", value: "poder_aprimoramento" },
     { name: "Poder da Tormenta", value: "poder_tormenta" },
     { name: "Poder de Origem", value: "poder_origem" },
+    { name: "Marca da Distinção", value: "marca_distincao" },
+    { name: "Poder de Distinção", value: "poder_distincao" },
     { name: "Habilidade de Raça", value: "habilidade_raca" },
     { name: "Habilidade de Classe", value: "habilidade_classe" },
     { name: "Efeito Mágico", value: "efeito_magico" },
