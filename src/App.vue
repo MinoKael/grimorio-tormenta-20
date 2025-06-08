@@ -4,6 +4,7 @@ import Footer from './components/Footer.vue';
 import Magias from './pages/Magias.vue';
 import Poderes from './pages/Poderes.vue';
 import Condicoes from './pages/Condicoes.vue';
+import Itens from './pages/Itens.vue';
 import { useFiltrosStore } from './stores/filtros';
 import { useFiltroPoderesStore } from './stores/filtroPoderes';
 
@@ -34,6 +35,7 @@ onMounted(async () => {
                 <v-tab :value="1">Magias</v-tab>
                 <v-tab :value="2">Poderes</v-tab>
                 <v-tab :value="3">Condições</v-tab>
+                <v-tab :value="4">Itens</v-tab>
             </v-tabs>
             <v-main>
                 <v-tabs-window v-model="tab">
@@ -45,6 +47,9 @@ onMounted(async () => {
                     </v-tabs-window-item>
                     <v-tabs-window-item :value="3">
                         <Condicoes></Condicoes>
+                    </v-tabs-window-item>
+                    <v-tabs-window-item :value="4">
+                        <Itens></Itens>
                     </v-tabs-window-item>
                 </v-tabs-window>
             </v-main>
