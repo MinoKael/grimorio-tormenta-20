@@ -17,7 +17,7 @@ const base = {
     referencia: [],
 };
 
-export const useFiltrosStore = defineStore('filtros', () => {
+export const useFiltrosMagiasStore = defineStore('filtrosMagias', () => {
     const filtroPesquisa = reactive({ ...base });
     const filtroOpcoes = reactive({
         Tipo: ['Arcana', 'Divina', 'Universal'],

@@ -1,8 +1,8 @@
 <script setup>
-import { useFiltrosStore } from '../stores/filtros';
+import { useFiltrosMagiasStore } from '../stores/filtrosMagias';
 import { ref, watch, computed } from 'vue';
 
-const filtros = useFiltrosStore();
+const filtros = useFiltrosMagiasStore();
 const dialog = ref(false);
 const { magiaIndex } = defineProps(['magiaIndex']);
 

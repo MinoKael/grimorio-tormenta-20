@@ -39,7 +39,7 @@ function expandAll() {
 <template>
     <v-data-table :headers="headers" :items="items" :items-per-page="-1" hide-default-footer
         item-value="nome" fixed-header hover expand-on-click density="compact" :group-by="[{ key: 'grupo' }]"
-        style="max-height: calc(100vh - 150px);"><template v-slot:top>
+        style="max-height: calc(100vh - 180px);"><template v-slot:top>
             <v-toolbar flat color="transparent">
                 <v-toolbar-title class="font-tormenta text-h4" style="text-align: center; color: #ce2a28;">
                     {{ titulo }}
@@ -76,3 +76,8 @@ function expandAll() {
         </template>
     </v-data-table>
 </template>
+<style scoped>
+.v-toolbar-title {
+    margin-inline-start: 0 !important;
+}
+</style>

@@ -1,6 +1,6 @@
 <script setup>
-import { useFiltrosStore } from '../stores/filtros';
-const filtros = useFiltrosStore();
+import { useFiltrosMagiasStore } from '../stores/filtrosMagias';
+const filtros = useFiltrosMagiasStore();
 
 const { mdAndUp } = defineProps(['mdAndUp']);
 </script>

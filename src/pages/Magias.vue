@@ -2,10 +2,10 @@
 import DialogCard from '../components/DialogCard.vue';
 import { useDisplay } from 'vuetify';
 import Filtros from '../components/Filtros.vue';
-import { useFiltrosStore } from '../stores/filtros';
+import { useFiltrosMagiasStore } from '../stores/filtrosMagias';
 import { computed, ref, watch } from 'vue';
 
-const filtroMagias = useFiltrosStore();
+const filtroMagias = useFiltrosMagiasStore();
 const { mdAndUp } = useDisplay();
 
 const ITEMS_OPTIONS = [30, 50, 'Tudo'];
