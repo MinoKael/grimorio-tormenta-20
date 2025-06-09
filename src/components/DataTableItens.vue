@@ -39,7 +39,9 @@ function expandAll() {
 <template>
     <v-data-table :headers="headers" :items="items" :items-per-page="-1" hide-default-footer
         item-value="nome" fixed-header hover expand-on-click density="compact" :group-by="[{ key: 'grupo' }]"
-        style="max-height: calc(100vh - 180px);"><template v-slot:top>
+        style="max-height: calc(100vh - 180px);"
+    >
+        <template v-slot:top>
             <v-toolbar flat color="transparent">
                 <v-toolbar-title class="font-tormenta text-h4" style="text-align: center; color: #ce2a28;">
                     {{ titulo }}
@@ -49,9 +51,11 @@ function expandAll() {
                 density="compact" variant="outlined" placeholder="Buscar em todas as colunas..." class="mt-1 px-2" clearable
                 @click:clear="emit('update:search', '')"></v-text-field>
         </template>
+
         <template v-slot:header.data-table-group>
-            <div @click="expandAll" style="cursor: pointer;" class="d-flex align-center">Grupos <v-icon class="ml-1" size="x-small">mdi-expand-all-outline</v-icon></div>
+            <div @click="expandAll" style="cursor: pointer;" class="d-flex align-center">Grupos<v-icon class="ml-1" size="x-small">mdi-expand-all-outline</v-icon></div>
         </template>
+
         <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
             <template :ref="() => { groupControls[item.value] = { item, toggleGroup, isGroupOpen } }" />
             <tr>

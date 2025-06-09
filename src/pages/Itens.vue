@@ -36,16 +36,16 @@ const tabelas = reactive([
         title: 'Armas',
         icon: 'mdi-sword',
         headers: [
-            { title: 'Arma', key: 'nome', align: 'center' },
-            { title: 'Proposito', key: 'proposito', align: 'center' },
-            { title: 'Empunhadura', key: 'empunhadura', align: 'center' },
-            { title: 'Preço', key: 'preco', align: 'center' },
-            { title: 'Dano', key: 'dano', align: 'center' },
-            { title: 'Crítico', key: 'critico', align: 'center' },
-            { title: 'Alcance', key: 'alcance', align: 'center' },
-            { title: 'Tipo', key: 'tipo', align: 'center' },
-            { title: 'Espaços', key: 'espacos', align: 'center' },
-            { title: 'Referência', key: 'referencia', align: 'center' }
+            { title: 'Arma', key: 'nome', align: 'start' },
+            { title: 'Proposito', key: 'proposito', align: 'start' },
+            { title: 'Empunhadura', key: 'empunhadura', align: 'start' },
+            { title: 'Preço', key: 'preco', align: 'start' },
+            { title: 'Dano', key: 'dano', align: 'start' },
+            { title: 'Crítico', key: 'critico', align: 'start' },
+            { title: 'Alcance', key: 'alcance', align: 'start' },
+            { title: 'Tipo', key: 'tipo', align: 'start' },
+            { title: 'Espaços', key: 'espacos', align: 'start' },
+            { title: 'Referência', key: 'referencia', align: 'start' }
         ],
         items: computed(() => {
             const data = armas.value.data || [];
@@ -76,12 +76,12 @@ const tabelas = reactive([
         title: 'Armaduras e Escudos',
         icon: 'mdi-shield-half-full',
         headers: [
-            { title: 'Nome', key: 'nome', align: 'center' },
-            { title: 'Preço', key: 'preco', align: 'center' },
-            { title: 'Bônus', key: 'bonus', align: 'center' },
-            { title: 'Penalidade', key: 'penalidade', align: 'center' },
-            { title: 'Espaços', key: 'espacos', align: 'center' },
-            { title: 'Referência', key: 'referencia', align: 'center' }
+            { title: 'Nome', key: 'nome', align: 'start' },
+            { title: 'Preço', key: 'preco', align: 'start' },
+            { title: 'Bônus', key: 'bonus', align: 'start' },
+            { title: 'Penalidade', key: 'penalidade', align: 'start' },
+            { title: 'Espaços', key: 'espacos', align: 'start' },
+            { title: 'Referência', key: 'referencia', align: 'start' }
         ],
         items: computed(() => {
             const data = armaduras_escudos.value.data || [];
@@ -93,8 +93,36 @@ const tabelas = reactive([
                     if (!searchTerm) return true;
                     return [
                         item.nome,
-                        item.proposito,
-                        item.empunhadura,
+                        item.preco,
+                        item.bonus,
+                        item.penalidade,
+                        item.espacos,
+                        item.referencia
+                    ].some(value =>
+                        value && String(value).toUpperCase().includes(searchTerm));
+                });
+        })
+    },
+    {
+        nome: 'itens_gerais',
+        title: 'Itens Gerais',
+        icon: 'mdi-sack',
+        headers: [
+            { title: 'Nome', key: 'nome', align: 'start' },
+            { title: 'Preço', key: 'preco', align: 'start' },
+            { title: 'Espaços', key: 'espacos', align: 'start' },
+            { title: 'Referência', key: 'referencia', align: 'start' }
+        ],
+        items: computed(() => {
+            const data = itens_gerais.value.data || [];
+            const searchTerm = search.itens_gerais.toUpperCase();
+            return data
+                .slice()
+                .sort((a, b) => a.nome.localeCompare(b.nome))
+                .filter(item => {
+                    if (!searchTerm) return true;
+                    return [
+                        item.nome,
                         item.preco,
                         item.espacos,
                         item.referencia
@@ -108,6 +136,7 @@ const tabelas = reactive([
 onMounted(async () => {
     const data = await getData(import.meta.env.VITE_ITENS_API_URL);
     Object.assign(itens, data);
+    currentTable.value = tabelas[0]
 })
 </script>
 
