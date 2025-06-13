@@ -161,7 +161,7 @@ const encantosMagicos = computed(() => {
         const encantos = itens_magicos.value[cat]?.encantos || [];
         todos.push(...encantos);
     });
-    return todos.sort((a, b) => a.nome.localeCompare(b.nome));
+    return todos;
 });
 
 const especificosMagicos = computed(() => {
@@ -171,7 +171,7 @@ const especificosMagicos = computed(() => {
         const especificos = itens_magicos.value[cat]?.especificos || itens_magicos.value[cat]?.especificas || [];
         todos.push(...especificos);
     });
-    return todos.sort((a, b) => a.nome.localeCompare(b.nome));
+    return todos;
 });
 
 
@@ -251,7 +251,7 @@ onMounted(async () => {
 
 <template>
     <v-container fluid :width="mdAndUp ? '90%' : '100%'" class="d-flex flex-column justify-center align-center">
-            <v-radio-group inline v-model="radio">
+            <v-radio-group inline v-model="radio" class="center">
                 <v-radio v-for="tabela in tabelas" 
                     :key="tabela.nome"
                     :label="tabela.title"
@@ -302,3 +302,8 @@ onMounted(async () => {
             </div>
     </v-container>
 </template>
+<style scoped>
+.center >>> .v-selection-control-group--inline {
+    justify-content: center;
+}
+</style>
