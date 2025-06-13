@@ -38,8 +38,8 @@ function expandAll() {
 </script>
 <template>
     <v-data-table :headers="headers" :items="items" :items-per-page="-1" hide-default-footer
-        item-value="nome" fixed-header hover expand-on-click density="compact" :group-by="[{ key: 'grupo' }]"
-        style="max-height: calc(100vh - 180px);"
+        item-value="nome" fixed-header hover show-expand expand-on-click density="compact" :group-by="[{ key: 'grupo' }]"
+        style="max-height: 800px;"
     >
         <template v-slot:top>
             <v-toolbar flat color="transparent">

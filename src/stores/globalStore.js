@@ -8,8 +8,19 @@ export const useGlobalStore = defineStore('globalStore', () => {
         currentTab.value = tab;
     };
 
+    function normalizeString(string) {
+        if (string == null) return '';
+        if (Number.isInteger(string)) return string.toString();
+        return string
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s/g, '')
+            .toLowerCase();
+    }
+
     return {
         currentTab,
-        setCurrentTab
+        setCurrentTab,
+        normalizeString
     }
 })
