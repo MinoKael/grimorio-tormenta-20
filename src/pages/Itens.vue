@@ -289,7 +289,7 @@ onMounted(async () => {
                                 <v-expansion-panel-text>
                                     <v-data-table :items="armas?.habilidades" :headers="[
                                         { title: 'Nome', key: 'nome', align: 'start' },
-                                        { title: 'Descrição', key: 'descricao', align: 'center' },
+                                        { title: 'Descrição', key: 'descricao', align: 'start' },
                                         { title: 'Referência', key: 'referencia', align: 'start' }
                                     ]" item-value="nome" :items-per-page="-1" hide-default-footer fixed-header
                                     >

@@ -73,20 +73,20 @@ function expandAll() {
             <tr>
                 <td :colspan="columns.length" class="py-2">
                     <v-sheet class="d-flex align-center justify-center text-center pa-2">
-                        <p class="text-body-1 text-wrap" v-html="item.descricao"></p>
+                        <p class="text-body-1 text-wrap text-justify" v-html="item.descricao"></p>
                     </v-sheet>
                 </td>
             </tr>
         </template>
 
         <template v-slot:item.arma="{ item }">
-            <span v-html="item.arma"></span>
+            <span v-html="item.arma" class="text-justify"></span>
         </template>
         <template v-slot:item.armadura_escudo="{ item }">
-            <span v-html="item.armadura_escudo"></span>
+            <span v-html="item.armadura_escudo" class="text-justify"></span>
         </template>
         <template v-slot:item.esoterico="{ item }">
-            <span v-html="item.esoterico"></span>
+            <span v-html="item.esoterico" class="text-justify"></span>
         </template>
     </v-data-table>
 </template>
