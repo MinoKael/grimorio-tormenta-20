@@ -78,6 +78,16 @@ function expandAll() {
                 </td>
             </tr>
         </template>
+
+        <template v-slot:item.arma="{ item }">
+            <span v-html="item.arma"></span>
+        </template>
+        <template v-slot:item.armadura_escudo="{ item }">
+            <span v-html="item.armadura_escudo"></span>
+        </template>
+        <template v-slot:item.esoterico="{ item }">
+            <span v-html="item.esoterico"></span>
+        </template>
     </v-data-table>
 </template>
 <style scoped>
