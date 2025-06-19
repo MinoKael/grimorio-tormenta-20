@@ -211,7 +211,6 @@ onMounted(async () => {
             headers: [
                 { title: '', key: 'data-table-expand' },
                 { title: 'Nome', key: 'nome', align: 'start' },
-                { title: 'Efeito', key: 'efeito', align: 'start' },
                 { title: 'Referência', key: 'referencia', align: 'start' }
             ],
             items: computed(() => {
@@ -293,6 +292,9 @@ onMounted(async () => {
                                         { title: 'Referência', key: 'referencia', align: 'start' }
                                     ]" item-value="nome" :items-per-page="-1" hide-default-footer fixed-header
                                     >
+                                        <template v-slot:item.descricao="{ item }">
+                                            <span v-html="item.descricao"></span>
+                                        </template>
                                     </v-data-table>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
