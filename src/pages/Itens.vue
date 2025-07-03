@@ -68,7 +68,8 @@ const tabelas = reactive([
                         item.alcance,
                         item.tipo,
                         item.espacos,
-                        item.referencia
+                        item.referencia,
+                        item.descricao
                     ].some(value =>
                         globalStore.normalizeString(value).includes(globalStore.normalizeString(searchTerm)));
                 });
@@ -101,7 +102,8 @@ const tabelas = reactive([
                         item.bonus,
                         item.penalidade,
                         item.espacos,
-                        item.referencia
+                        item.referencia,
+                        item.descricao
                     ].some(value =>
                         globalStore.normalizeString(value).includes(globalStore.normalizeString(searchTerm)));
                 });
@@ -130,7 +132,8 @@ const tabelas = reactive([
                         item.nome,
                         item.preco,
                         item.espacos,
-                        item.referencia
+                        item.referencia,
+                        item.descricao
                     ].some(value =>
                         globalStore.normalizeString(value).includes(globalStore.normalizeString(searchTerm)));
                 });
