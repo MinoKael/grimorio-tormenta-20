@@ -1,6 +1,6 @@
 <script setup>
 import { useFiltrosMagiasStore } from '../stores/filtrosMagias';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 
 const filtros = useFiltrosMagiasStore();
 const dialog = ref(false);
