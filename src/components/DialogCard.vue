@@ -24,6 +24,21 @@ watch(dialog, () => {
         currentIndex.value = magiaIndex;
     }
 });
+const handleKey = (event) => {
+    if (event.key === 'ArrowLeft') {
+    prevMagia();
+    } else if (event.key === 'ArrowRight') {
+    nextMagia();
+    }
+};
+
+onMounted(() => {
+    window.addEventListener('keydown', handleKey);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('keydown', handleKey);
+});
 </script>
 <template>
     <v-dialog
