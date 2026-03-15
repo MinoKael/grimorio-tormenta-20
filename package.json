@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "vite build && git add dist && git commit -m 'update dist' && git subtree push --prefix dist origin gh-pages"
+    "deploy": "vite build && git add -f dist && git commit -m deploy && git subtree push --prefix dist origin gh-pages && git reset --hard HEAD~1"
   },
   "dependencies": {
     "pinia": "^2.3.0",
