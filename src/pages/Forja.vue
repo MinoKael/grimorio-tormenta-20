@@ -1,7 +1,6 @@
 <script setup>
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { getData } from '../plugins/global.js';
-import * as htmlToImage from 'html-to-image';
 
 const itens = reactive({
   armas: { data: [] },
