@@ -6,6 +6,7 @@ import Poderes from './pages/Poderes.vue';
 import Condicoes from './pages/Condicoes.vue';
 import Itens from './pages/Itens.vue';
 import Viagens from './pages/Viagens.vue';
+import Forja from './pages/Forja.vue';
 import { useFiltrosMagiasStore } from './stores/filtrosMagias';
 import { useFiltroPoderesStore } from './stores/filtroPoderes';
 import { useGlobalStore } from './stores/globalStore';
@@ -46,6 +47,7 @@ onMounted(async () => {
                 <v-tab :value="3" @click="incluirEvento('Condicoes')">Condições</v-tab>
                 <v-tab :value="4" @click="incluirEvento('Itens')">Itens</v-tab>
                 <v-tab :value="5" @click="incluirEvento('Viagens')">Viagens</v-tab>
+                <v-tab :value="6" @click="incluirEvento('Forja')">Forja</v-tab>
             </v-tabs>
             <v-main>
                 <v-tabs-window :model-value="globalStore.currentTab" @update:model-value="globalStore.setCurrentTab">
@@ -63,6 +65,9 @@ onMounted(async () => {
                     </v-tabs-window-item>
                     <v-tabs-window-item :value="5">
                         <Viagens></Viagens>
+                    </v-tabs-window-item>
+                    <v-tabs-window-item :value="6">
+                        <Forja></Forja>
                     </v-tabs-window-item>
                 </v-tabs-window>
             </v-main>

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, defineProps, onMounted } from 'vue';
+import { reactive } from 'vue';
 const {
     headers,
     items,
