@@ -27,6 +27,7 @@ const {
 });
 
 const emit = defineEmits(['update:search']);
+const multiSearch = reactive({});
 
 const groupControls = reactive({})
 
@@ -35,9 +36,22 @@ function expandAll() {
         header.toggleGroup(header.item)
     });
 }
+function filteredData() {
+  if (!items) return [];
+  return items.filter(
+    (item) => {
+      return Object.entries(multiSearch).every(([key, value]) => {
+        return (JSON.stringify(item[key]) || "")
+          .toString()
+          .toUpperCase()
+          .includes(value.toString().toUpperCase());
+      });
+    }
+  );
+}
 </script>
 <template>
-    <v-data-table :headers="headers" :items="items" :items-per-page="-1" hide-default-footer
+    <v-data-table :headers="headers" :items="filteredData()" :items-per-page="-1" hide-default-footer
         item-value="nome" fixed-header hover show-expand expand-on-click density="compact" :group-by="[{ key: 'grupo' }]"
         style="max-height: 800px;"
     >
@@ -51,6 +65,19 @@ function expandAll() {
                 density="compact" variant="outlined" placeholder="Buscar em todas as colunas..." class="mt-1 px-2" clearable
                 @click:clear="emit('update:search', '')"></v-text-field>
         </template>
+      <template v-for="(header, i) in headers.filter(h => h.title != '')" v-slot:[`header.${header.key}`]="{}">
+        <div @click.stop :key="i">
+          <v-text-field
+            :key="i"
+            v-model="multiSearch[header.key]"
+            class="pa-0"
+            :label="header.title"
+            variant="underlined"
+            clearable
+          ></v-text-field>
+        </div>
+      </template>
+
 
         <template v-slot:header.data-table-group>
             <div @click="expandAll" style="cursor: pointer;" class="d-flex align-center">Grupos<v-icon class="ml-1" size="x-small">mdi-expand-all-outline</v-icon></div>
