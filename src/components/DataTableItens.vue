@@ -74,6 +74,7 @@ function filteredData() {
             :label="header.title"
             variant="underlined"
             clearable
+            @click:clear="multiSearch[header.key] = ''"
           ></v-text-field>
         </div>
       </template>
